@@ -1,7 +1,7 @@
 function [ prob ] = Get_Probability( data1 )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
-    prob = zeros(6,12);
+    prob = zeros(6,13);
     [r0,c0] = size(data1);
     for m=1:c0
         values=unique(data1(:,m));

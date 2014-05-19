@@ -15,6 +15,6 @@ for i = 1:c0
         count=count+1;
     end
 end
-
+K2BN(data1);
 %% Sort the chi-square result in non-decreasing-order
 result=flipdim(sortrows(result,3),1);

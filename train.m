@@ -1,27 +1,21 @@
-%% Load Data
-load 'data/set2.mat'
-r0=size(newdata,1);
-data1=zeros(r0,13);
-data1(:,1:12)=newdata;
-temp=ones(r0,1).*1;
-data1(:,13)=temp;
-data2=zeros(r0,13);
-data2(:,1:12)=newdata2;
-data2(:,13)=temp +ones(r0,1); 
+%% Load Data - printed
+load 'data/train_data_printed.mat'
+data1=train_x;
+%% Load Data - Cursive
+%load 'data/train_data_cursive.mat'
+%data1=train_x;
 %% Data Cleaning Begin
 data1 = Clean_data(data1);
-data2 = Clean_data(data2);
+
 %% Probability calculation begin 
 prob1 = Get_Probability(data1);
-prob2 = Get_Probability(data2);
+
 %%  Mean and variance 
 meanV1 = Get_Mean(data1);
 varV1 = Get_Variance(data1);
-meanV2 = Get_Mean(data2);
-varV2 = Get_Variance(data2);
 %% Dissimilarity Measure
 DM_Result1 = calculateDM(data1,meanV1);
-DM_Result2 = calculateDM(data2,meanV2);
+
 data_DM1=data1;
 data_DM1(:,14) = DM_Result1;
 DMSorted = sortrows(data_DM1,14);
@@ -35,14 +29,15 @@ for i=1:5
     end    
     fprintf('\n');
 end
+
 %Computing increase in similarity if any between 2 datasets.
 %checkSim = compareDM(DM_Result1, DM_Result2);
 %fprintf('Improvement in handwriting from 1st to 2nd: %s \n', checkSim);
 %% Entropy
 entropyV1 = Get_Entropy(data1,prob1);
-entropyV2 = Get_Entropy(data2,prob2);
+%entropyV2 = Get_Entropy(data2,prob2);
 %% Relative-Entropy
-REntropy = Get_RelEntropy(prob1,prob2);
+%REntropy = Get_RelEntropy(prob1,prob2);
 %%  Unusual Writing
 UW = Unusual_Writing( data1, prob1);
 data_UW = data1;
@@ -51,7 +46,7 @@ UWSorted = sortrows(data_UW,14);
 % Do not change this part - Begin
 fprintf('  Top 5 unusual writing\n');
 fprintf(' -----------------------\n');
-fprintf(' X1  X2  X3  X4  X5  X6  X7  X8  X9  X10 X11 X12 X13\n');
+fprintf(' V1  V2  V3  V4  V5  V6  V7  V8  V9  V10 V11 V12 V13\n');
 % Do not change this part - Ends
 for i=1:5
     for j=1:13
@@ -66,16 +61,16 @@ Result = ResultZB(data1);
 data1ZB=data1;
 data1ZB(:,14)=Result;
 % Data2
-Result = ResultZB(data2);
-data2ZB=data2;
-data2ZB(:,14)=Result;
+%Result = ResultZB(data2);
+%data2ZB=data2;
+%data2ZB(:,13)=Result;
 % Count number of student with improved writing
-[good, bad, same] = CheckWriting(data1ZB, data2ZB);
-fprintf('Improved Handwritings quality   : %d \n', good);
-fprintf('Decline in Handwritings quality : %d \n', bad);
-fprintf('No change in Handwriting quality: %d \n', same);
-pcntg =  (good*100)/(good+bad+same);
-fprintf('Improvement : %f \n', pcntg);
+%[good, bad, same] = CheckWriting(data1ZB, data2ZB);
+%fprintf('Improved Handwritings quality   : %d \n', good);
+%fprintf('Decline in Handwritings quality : %d \n', bad);
+%fprintf('No change in Handwriting quality: %d \n', same);
+%pcntg =  (good*100)/(good+bad+same);
+%fprintf('Improvement : %f \n', pcntg);
 
 %% Chi-Square Test
 [r0,c0] = size(data1);
@@ -114,12 +109,12 @@ for i = 1:20
         end
     end
 end
-%view(biograph(adj_list));    
+ids = {'X1','X2','X3','X4','X5','X6','X7','X8','X9','X10','X11','X12','Grade'};
+view(biograph(adj_list,ids));    
 %% K2-Algorithm
 %DAG=K2BN(data1);
 %% Conditional Probability
 result2 = ConditionalProbability( data1, 1, 2 );
 %% Markov network from Bayesian Network
 hulahula=MarkovNetwork(adj_list);
-%view(biograph(hulahula));
-resultZanB = ZanB(data1,'P');
+view(biograph(hulahula,ids));

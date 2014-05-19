@@ -4,7 +4,7 @@ function [ ZB_Result ] = ResultZB(data1)
     ZB_Result=zeros(r0,1);
     for i=1:r0
         count = 0;
-        for j = 1:c0
+        for j = 1:c0-1
             if data1(i,j)==ZB(1,j)
                 count = count+1;
             end
